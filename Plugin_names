@@ -1,0 +1,17 @@
+" Here are the names of the plugins
+" To get them: download each plugin and unzip them like this:
+" First: download
+" Second: create a folder in your home directory
+" .vim/pack/plugins/start
+" and place these unzipped plugins in the start directory
+
+What I use:
++ ansible-vim/
++ ctrlp/
++ fugitive/
++ gruvbox/
++ lightline.vim-master/
++ nerdtree/
++ vim-jinja/
++ vim-puppet/
++ vim-yaml/
