@@ -1,0 +1,148 @@
+" ─── Core Vim Settings ─────────────────────────────
+set nocompatible
+syntax on
+filetype plugin indent on
+set encoding=utf-8
+set number
+" set relativenumber
+set cursorline
+set scrolloff=8
+set showcmd
+set laststatus=2
+set noswapfile
+set hidden" ─── Visual YAML sanity checks ──────────────────────
+autocmd FileType yaml match BadTab /\t/
+highlight BadTab ctermbg=red guibg=red
+
+" Use Space as leader
+let mapleader = "\<Space>"
+nnoremap <Space> <Nop>
+
+" Map <Space>t to open terminal in a horizontal split
+nnoremap <Leader>t :term<CR>
+
+" ─── Colors and Theme ─────────────────────────────
+set t_Co=256
+set termguicolors
+set background=dark
+colorscheme gruvbox
+
+" ─── Tabs and Indentation ─────────────────────────
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set autoindent
+set smartindent" ─── Visual YAML sanity checks ──────────────────────
+autocmd FileType yaml match BadTab /\t/
+highlight BadTab ctermbg=red guibg=red
+
+autocmd FileType yaml match OverIndent /^\s\{5,}-\?\s*\S/
+highlight OverIndent ctermbg=yellow guibg=yellow
+
+set smarttab
+
+" ─── Search and UI ────────────────────────────────
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set wildmenu
+
+" Show invisible characters (indentation + whitespace)
+set list
+set listchars=tab:→\ ,trail:·
+
+" ─── Mouse Support ────────────────────────────────
+set mouse=v
+
+" ─── Plugin Keybindings ───────────────────────────
+nnoremap <C-n> :NERDTreeToggle<CR>
+nmap <C-s> :w<CR>
+imap <C-s> <Esc>:w<CR>li
+
+" ─── Ansible File Detection and Indentation ───────
+autocmd BufNewFile,BufRead */group_vars/*,*/host_vars/*,*/inventory set filetype=yaml.ansible
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" ─── Extra highlighting for Ansible ────────────────
+augroup AnsibleYAMLHighlight
+  autocmd!
+  autocmd FileType yaml.ansible syntax keyword AnsibleKeyword name hosts vars tasks when become gather_facts tags delegate_to
+  autocmd FileType yaml.ansible highlight AnsibleKeyword ctermfg=Yellow guifg=Yellow
+
+  " ─── Visual YAML sanity checks ──────────────────────
+  autocmd FileType yaml match BadTab /\t/
+  autocmd FileType yaml highlight BadTab ctermbg=red guibg=red
+
+"  autocmd FileType yaml match OverIndent /^\s\{3,}-\?\s*\S/
+"  autocmd FileType yaml highlight OverIndent ctermbg=yellow guibg=yellow
+
+  " ─── Ansible module highlighting ────────────────────
+  autocmd FileType yaml.ansible syntax keyword AnsibleModule debug command shell copy template include_tasks import_tasks pause setup
+  autocmd FileType yaml.ansible highlight AnsibleModule ctermfg=Blue guifg=Blue
+augroup END
+
+" ─── Puppet File Detection and Indentation ────────
+autocmd BufNewFile,BufRead *.pp set filetype=puppet
+autocmd FileType puppet setlocal ts=2 sts=2 sw=2 expandtab
+
+" ─── Show Whitespace Characters ───────────────────
+set list
+set listchars=tab:→\ ,trail:·
+
+" ─── Trailing Whitespace Highlighting ─────────────
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+
+" ─── Statusline (Lightline support) ───────────────
+let g:lightline = {
+      \ 'colorscheme': 'gruvbox',
+      \ }
+
+" ─── Also apply YAML rules to yaml.ansible ───────────────
+autocmd FileType yaml.ansible setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType yaml.ansible match BadTab /\t/
+autocmd FileType yaml.ansible highlight BadTab ctermbg=red guibg=red
+autocmd FileType yaml.ansible match OverIndent /^\s\{10,}\S/
+autocmd FileType yaml.ansible highlight OverIndent ctermbg=yellow guibg=yellow
+
+" ─── Window movement with Ctrl + hjkl ─────────────
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" ─── Terminal mode window navigation ─────────────
+tnoremap <C-h> <C-\><C-n><C-w>h
+tnoremap <C-j> <C-\><C-n><C-w>j
+tnoremap <C-k> <C-\><C-n><C-w>k
+tnoremap <C-l> <C-\><C-n><C-w>l
+
+" ─── CtrlP Fuzzy File Finder ───────────────
+let g:ctrlp_map = '<C-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+let g:ctrlp_max_depth = 10
+
+" ─── Git (Fugitive) Keybindings ─────────────────────
+" Stage current file (same as Git add %)
+nnoremap <leader>gw :Gwrite<CR>
+
+" Commit staged files
+nnoremap <leader>gc :Git commit<CR>
+
+" Git status (launches Fugitive status view)
+nnoremap <leader>gs :Git<CR>
+
+" Git diff current file
+nnoremap <leader>gd :Gdiffsplit<CR>
+
+" ─── Git Push/Pull ─────────────────────────────
+nnoremap <leader>gp :Git push<CR>
+nnoremap <leader>gP :Git pull<CR>
+
+" View full Git log
+nnoremap <leader>gl :Git log<CR>
+
+" View Git log of current file only
+nnoremap <leader>gL :Gclog<CR>
