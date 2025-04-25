@@ -4,6 +4,8 @@
 " Second: create a folder in your home directory
 " .vim/pack/plugins/start
 " and place these unzipped plugins in the start directory
+" 
+" You can also use the script I placed in this repo, after having first downloaded the plugins
 
 What I use:
 + ansible-vim/
