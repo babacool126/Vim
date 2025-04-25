@@ -1,5 +1,5 @@
 " Here are the names of the plugins
-" To get them: download each plugin and unzip them like this:
+" To get them: download each plugin (you can find each one on github and unzip them like this:
 " First: download
 " Second: create a folder in your home directory
 " .vim/pack/plugins/start
